@@ -1,0 +1,564 @@
+{
+	"info": {
+		"_postman_id": "2cbf587c-3e8e-4e74-a4fe-fc29ba079ae8",
+		"name": "Cocktail API Testing Suite",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "50309226",
+		"_collection_link": "https://heathergauthier18-3647476.postman.co/workspace/c45676f2-13f6-4e80-8111-33ac96b8c3fc/collection/50309226-2cbf587c-3e8e-4e74-a4fe-fc29ba079ae8?action=share&source=collection_link&creator=50309226"
+	},
+	"item": [
+		{
+			"name": "Search Cocktails by Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is under 800ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is JSON\", function () {\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has drinks array\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"drinks\");\r",
+							"    pm.expect(jsonData.drinks).to.be.an(\"array\").that.is.not.empty;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/search.php?s=margarita",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"search.php"
+					],
+					"query": [
+						{
+							"key": "s",
+							"value": "margarita"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Cocktail by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is JSON and has drinks array\", function () {\r",
+							"    const data = pm.response.json();\r",
+							"    pm.response.to.be.json;\r",
+							"    pm.expect(data).to.have.property(\"drinks\");\r",
+							"    pm.expect(data.drinks).to.be.an(\"array\").that.is.not.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Drink has correct ID\", function () {\r",
+							"    const drink = pm.response.json().drinks[0];\r",
+							"    pm.expect(drink.idDrink).to.eql(\"11007\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/lookup.php?i=11007",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"lookup.php"
+					],
+					"query": [
+						{
+							"key": "i",
+							"value": "11007"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search with Invalid Cocktail Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 even for unknown search\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Unknown search returns null or empty drinks\", function () {\r",
+							"    const data = pm.response.json();\r",
+							"    pm.expect(data).to.have.property(\"drinks\");\r",
+							"    pm.expect(data.drinks === null || data.drinks.length === 0).to.be.true;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/search.php?s=sdjasdjhasdjk",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"search.php"
+					],
+					"query": [
+						{
+							"key": "s",
+							"value": "sdjasdjhasdjk"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filter Cocktails by Category",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is under 800ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is JSON\", function () {\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has drinks array\", function () {\r",
+							"    const data = pm.response.json();\r",
+							"    pm.expect(data).to.have.property(\"drinks\");\r",
+							"    pm.expect(data.drinks).to.be.an(\"array\").that.is.not.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Each drink has basic fields\", function () {\r",
+							"    const drinks = pm.response.json().drinks;\r",
+							"    drinks.forEach(d => {\r",
+							"        pm.expect(d).to.have.property(\"idDrink\");\r",
+							"        pm.expect(d).to.have.property(\"strDrink\");\r",
+							"        pm.expect(d).to.have.property(\"strDrinkThumb\");\r",
+							"    });\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/filter.php?c=Cocktail",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"filter.php"
+					],
+					"query": [
+						{
+							"key": "c",
+							"value": "Cocktail"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filter Cocktails by Ingredient (Vodka)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is under 800ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is JSON\", function () {\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has drinks array\", function () {\r",
+							"    const data = pm.response.json();\r",
+							"    pm.expect(data).to.have.property(\"drinks\");\r",
+							"    pm.expect(data.drinks).to.be.an(\"array\").that.is.not.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Each drink has idDrink, strDrink, and strDrinkThumb\", function () {\r",
+							"    const drinks = pm.response.json().drinks;\r",
+							"    drinks.forEach(d => {\r",
+							"        pm.expect(d).to.have.property(\"idDrink\");\r",
+							"        pm.expect(d).to.have.property(\"strDrink\");\r",
+							"        pm.expect(d).to.have.property(\"strDrinkThumb\");\r",
+							"    });\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/filter.php?i=Vodka",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"filter.php"
+					],
+					"query": [
+						{
+							"key": "i",
+							"value": "Vodka"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Random Cocktail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is under 800ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is JSON\", function () {\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has drinks array\", function () {\r",
+							"    const data = pm.response.json();\r",
+							"    pm.expect(data).to.have.property(\"drinks\");\r",
+							"    pm.expect(data.drinks).to.be.an(\"array\").that.is.not.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Each drink has idDrink, strDrink, and strDrinkThumb\", function () {\r",
+							"    const drinks = pm.response.json().drinks;\r",
+							"    drinks.forEach(d => {\r",
+							"        pm.expect(d).to.have.property(\"idDrink\");\r",
+							"        pm.expect(d).to.have.property(\"strDrink\");\r",
+							"        pm.expect(d).to.have.property(\"strDrinkThumb\");\r",
+							"    });\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/random.php",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"random.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Cocktail by Invalid ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 for invalid ID\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Invalid ID returns null or empty drinks\", function () {\r",
+							"    const data = pm.response.json();\r",
+							"    pm.expect(data).to.have.property(\"drinks\");\r",
+							"    pm.expect(data.drinks === null || data.drinks.length === 0).to.be.true;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/lookup.php?i=9999999",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"lookup.php"
+					],
+					"query": [
+						{
+							"key": "i",
+							"value": "9999999"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search with Empty Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 for empty search\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Empty search returns 'no data found' message\", function () {\r",
+							"    const data = pm.response.json();\r",
+							"    pm.expect(data).to.have.property(\"drinks\");\r",
+							"    pm.expect(data.drinks).to.eql(\"no data found\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/search.php?s=",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"search.php"
+					],
+					"query": [
+						{
+							"key": "s",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search with Uppercase Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 for uppercase search\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Uppercase search returns a drinks array\", function () {\r",
+							"    const data = pm.response.json();\r",
+							"    pm.expect(data).to.have.property(\"drinks\");\r",
+							"    pm.expect(data.drinks).to.be.an(\"array\").that.is.not.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"At least one drink name matches 'margarita' (case-insensitive)\", function () {\r",
+							"    const data = pm.response.json();\r",
+							"    const names = data.drinks.map(d => d.strDrink.toLowerCase());\r",
+							"    const hasMargarita = names.some(name => name.includes(\"margarita\"));\r",
+							"    pm.expect(hasMargarita).to.be.true;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/search.php?s=MARGARITA",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"search.php"
+					],
+					"query": [
+						{
+							"key": "s",
+							"value": "MARGARITA"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search with Space in Name (Bloody Mary)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 for spaced-name search\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Spaced-name search returns a drinks array\", function () {\r",
+							"    const data = pm.response.json();\r",
+							"    pm.expect(data).to.have.property(\"drinks\");\r",
+							"    pm.expect(data.drinks).to.be.an(\"array\").that.is.not.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"At least one drink is 'Bloody Mary' (case-insensitive)\", function () {\r",
+							"    const data = pm.response.json();\r",
+							"    const names = data.drinks.map(d => d.strDrink.toLowerCase());\r",
+							"    const hasBloodyMary = names.some(name => name.includes(\"bloody mary\"));\r",
+							"    pm.expect(hasBloodyMary).to.be.true;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/search.php?s=Bloody%20Mary",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"search.php"
+					],
+					"query": [
+						{
+							"key": "s",
+							"value": "Bloody%20Mary"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://www.thecocktaildb.com/api/json/v1/1"
+		}
+	]
+}
