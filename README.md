@@ -1,8 +1,8 @@
 # 🍸 Automated API Testing Suite – TheCocktailDB (Postman + Newman)
 
-This project is a fully automated API testing suite for **TheCocktailDB**, built using **Postman**, executed with **Newman**, and integrated with **GitHub Actions CI**.
+This project is a fully automated API testing suite for **TheCocktailDB**, built using Postman, executed with Newman, and integrated with GitHub Actions CI.
 
-It serves both as a **professional portfolio project** and a real-world **regression test suite** for applications that consume CocktailDB (including my *Cocktail Finder UI* project).
+It serves both as a professional portfolio project and a real-world regression test suite for applications that consume CocktailDB (including my Cocktail Finder project).
 
 ---
 
@@ -11,31 +11,31 @@ It serves both as a **professional portfolio project** and a real-world **regres
 This project showcases strong API testing and automation skills, including:
 
 ### 🔍 **Test Design & Coverage**
-- Full coverage of **10 endpoints**, including:
+- Full coverage of 10 endpoints, including:
   - Search  
   - Lookups  
   - Filters  
   - Random cocktail  
   - Invalid & edge-case scenarios
-- **Data-driven testing** using iteration CSV files
-- **Positive & negative test flows**
-- **Edge case handling**, including empty search terms, invalid IDs, URL-encoded names, uppercase variations
+- Data-driven testing using iteration CSV files
+- Positive & negative test flows
+- Edge case handling, including empty search terms, invalid IDs, URL-encoded names, uppercase variations
 
 ### 🧪 **Automated Postman Test Logic**
 - Functional validations  
 - Negative-case validations  
-- **Schema-style JSON validation** for multiple endpoints  
+- Schema-style JSON validation for multiple endpoints  
 - Case-insensitive name matching  
 - Null/empty array checks  
-- Special handling for **API quirks** (e.g., empty search returning a full list)
+- Special handling for API quirks (e.g., empty search returning a full list)
 
 ### ⚡ **Performance Testing**
 - Response time assertions (< **800ms**)
 
 ### 🔁 **Continuous Integration**
-- Execution using **Newman**
+- Execution using Newman
 - Automatic HTML reports with `newman-reporter-htmlextra`
-- Fully automated CI pipeline via **GitHub Actions**
+- Fully automated CI pipeline via GitHub Actions
 
 ---
 
