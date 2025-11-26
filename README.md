@@ -365,7 +365,9 @@ https://heathergauthier2018.github.io/cocktail-finder2.0/
 
 ### **Companion UI Test Suite (Cypress E2E)**
 End-to-end browser automation for the same application.
+
 https://github.com/heathergauthier2018/cypress-tests-cocktail-finder
+
 ---
 
 # 👩‍💻 Author
